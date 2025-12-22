@@ -1,3 +1,3 @@
-# Use Template
+# Use SQS
 
-use-template - A framework-agnostic template library.
+use-sqs

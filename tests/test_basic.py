@@ -1,3 +1,3 @@
 """
-Pytest-based tests for use-template.
+Pytest-based tests for use-sqs.
 """
