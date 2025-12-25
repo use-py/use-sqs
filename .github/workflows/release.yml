@@ -19,7 +19,7 @@ jobs:
           python-version: "3.11"
 
       - name: Setup uv
-        uses: astral-sh/setup-uv@v1
+        uses: astral-sh/setup-uv@v7
       - name: Build project for distribution with uvx
         run: uvx --from build python -m build
 
