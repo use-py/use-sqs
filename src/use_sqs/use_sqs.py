@@ -400,7 +400,7 @@ class SQSStore:
         开始消费队列消息
 
         :param queue_name: 队列名称
-        :param callback: 消息处理回调函数
+        :param callback: 消息处理回调函数，参数为SQS Message对象
         :param prefetch: 预取消息数量，默认为1
                     - FIFO队列：同一MessageGroupId的消息会顺序处理
                     - 标准队列：可以设置更大的值来实现批量处理
@@ -423,6 +423,7 @@ class SQSStore:
 
                 for message in messages:
                     try:
+                        # 测试是否能解析JSON
                         body = message.body
                         try:
                             body = json.loads(body)
