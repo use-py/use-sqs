@@ -1,3 +1,4 @@
+import logging
 import json
 import os
 import time
@@ -5,7 +6,8 @@ import uuid
 from typing import Optional, Union, Dict
 import boto3
 from botocore.exceptions import ClientError
-from loguru import logger
+
+logger = logging.getLogger(__name__)
 
 
 class SNSPublisher:

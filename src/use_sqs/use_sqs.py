@@ -1,3 +1,4 @@
+import logging
 import json
 import os
 import threading
@@ -6,8 +7,8 @@ from typing import Callable, Optional, Union, Any, Dict, List
 
 import boto3
 from botocore.exceptions import ClientError
-from loguru import logger
 
+logger = logging.getLogger(__name__)
 
 class SQSStore:
     """
@@ -88,7 +89,7 @@ class SQSStore:
 
         for attempt in range(self.MAX_RETRIES):
             try:
-                queue = self.client.get_queue_by_name(QueueName=queue_name)
+                queue = self.client.get_queue_by_name(QueueName=queue_name)  # pyright: ignore[reportAttributeAccessIssue]
                 self._queues[queue_name] = queue
                 return queue
             except ClientError as e:
@@ -101,7 +102,7 @@ class SQSStore:
                         if queue_name.lower().endswith(".fifo"):
                             attributes.setdefault("FifoQueue", "true")
                             attributes.setdefault("ContentBasedDeduplication", "true")
-                        queue = self.client.create_queue(
+                        queue = self.client.create_queue(  # pyright: ignore[reportAttributeAccessIssue]
                             QueueName=queue_name, Attributes=attributes
                         )
                         self._queues[queue_name] = queue
