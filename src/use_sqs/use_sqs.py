@@ -25,6 +25,7 @@ class SQSStore:
     MAX_RETRIES = 5
     MAX_RECONNECTION_DELAY = 32
     INITIAL_RECONNECTION_DELAY = 1
+    MAX_MESSAGE_BYTES = 262144
 
     def __init__(
         self,
@@ -293,6 +294,13 @@ class SQSStore:
             message_body.encode("utf-8").decode("utf-8")
         except UnicodeError:
             raise ValueError("Message contains invalid Unicode characters")
+
+        # 检查消息大小
+        message_bytes = message_body.encode("utf-8")
+        if len(message_bytes) > self.MAX_MESSAGE_BYTES:
+            raise ValueError(
+                f"Message size {len(message_bytes)} exceeds the maximum allowed size of {self.MAX_MESSAGE_BYTES} bytes"
+            )
 
         send_params = self._convert_message_params(kwargs, queue_name)
 
